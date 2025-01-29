@@ -1,12 +1,17 @@
-﻿using BadgerClan.Maui.Messages;
+﻿
+using BadgerClan.Maui.Messages;
 using BadgerClan.Maui.Models;
+using BadgerClan.Shared;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BadgerClan.Maui.ViewModels
@@ -20,15 +25,21 @@ namespace BadgerClan.Maui.ViewModels
             _client = client;
             Strategies = new ObservableCollection<StrategyModel>()
             {
-                new StrategyModel(StrategyType.MyStrategy, _client),
-                new StrategyModel(StrategyType.OtherStrategy, _client)
+                new StrategyModel(StrategyType.MyStrategy),
+                new StrategyModel(StrategyType.OtherStrategy)
             };
             WeakReferenceMessenger.Default.Register(this);
         }
 
-        public void Receive(StrategyChangedMessage message)
+        private async Task UpdateStrategy(StrategyType stratType)
         {
-            OnPropertyChanged();
+            await _client.PostAsJsonAsync("/changestrategy", new StrategyDTO() { StratType = stratType });
+        }
+
+
+        public async void Receive(StrategyChangedMessage message)
+        {
+            await UpdateStrategy(message.StratType);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BadgerClan.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace BadgerClan.Maui.Messages
 {
     public class StrategyChangedMessage
     {
+        public StrategyType StratType;
     }
 }

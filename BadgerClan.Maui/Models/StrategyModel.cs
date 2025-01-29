@@ -1,4 +1,5 @@
 ﻿using BadgerClan.Maui;
+using BadgerClan.Shared;
 using BadgerClan.Maui.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -14,32 +15,33 @@ namespace BadgerClan.Maui.Models
 {
     public partial class StrategyModel : ObservableObject, IRecipient<StrategyChangedMessage>
     {
-        HttpClient _client; 
         [ObservableProperty]
-        public StrategyType _stratType;
+        private StrategyType _stratType;
 
         private bool _stratUsed;
 
-        public StrategyModel(StrategyType stratType, HttpClient client)
+        public StrategyModel(StrategyType stratType)
         {
-            _client = client;
             StratType = stratType;
             if (StratType == StrategyType.MyStrategy)
                 _stratUsed = true;
             else _stratUsed = false;
+
+            WeakReferenceMessenger.Default.Register(this);
         }
 
         [RelayCommand(CanExecute = nameof(CanChangeStrategy))]
-        public async Task ChangeStrategy()
+        public void ChangeStrategy()
         {
-            await _client.PostAsJsonAsync("/changestrategy", _stratType);
             _stratUsed = true;
-            WeakReferenceMessenger.Default.Send(new StrategyChangedMessage());
+            WeakReferenceMessenger.Default.Send(new StrategyChangedMessage() { StratType = StratType });
         }
         private bool CanChangeStrategy() => !_stratUsed;
 
         public void Receive(StrategyChangedMessage message)
         {
+            if (message.StratType != StratType) 
+                _stratUsed = false;
             ChangeStrategyCommand.NotifyCanExecuteChanged();
         }
     }

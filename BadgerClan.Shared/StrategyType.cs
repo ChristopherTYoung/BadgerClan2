@@ -1,4 +1,4 @@
-﻿namespace BadgerClan.Bot
+﻿namespace BadgerClan.Shared
 {
     public enum StrategyType
     {

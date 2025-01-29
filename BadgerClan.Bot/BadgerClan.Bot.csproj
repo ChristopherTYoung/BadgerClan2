@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BadgerClan.Logic\BadgerClan.Logic.csproj" />
+    <ProjectReference Include="..\BadgerClan.Shared\BadgerClan.Shared.csproj" />
   </ItemGroup>
 
 </Project>

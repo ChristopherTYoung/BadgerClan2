@@ -1,5 +1,7 @@
+using BadgerClan.Bot.Services;
 using BadgerClan.Bot.Strategies;
 using BadgerClan.Logic;
+using BadgerClan.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BadgerClan.Bot.Controllers
@@ -9,30 +11,25 @@ namespace BadgerClan.Bot.Controllers
     public class BotController : ControllerBase
     {
         ILogger<BotController> _logger;
-        IStrategy strategy;
-        public BotController(ILogger<BotController> logger)
+        StrategyService _strategyService;
+        public BotController(ILogger<BotController> logger, StrategyService strategyService)
         {
             _logger = logger;
-            strategy = new MyStrategy();
+            _strategyService = strategyService;
         }
 
         [HttpPost("/")]
         public MoveResponse GenerateMoveResponse(MoveRequest request)
         {
             var moves = new List<Move>();
-            moves = strategy.GenerateMoves(request);
+            moves = _strategyService.Strategy.GenerateMoves(request);
             return new MoveResponse(moves);
         }
 
         [HttpPost("/changestrategy")]
-        public void ChangeStrategy(StrategyType type)
+        public void ChangeStrategy(StrategyDTO strat)
         {
-            strategy = type switch
-            {
-                StrategyType.MyStrategy => new MyStrategy(),
-                StrategyType.OtherStrategy => new OtherStrategy(),
-                _ => new MyStrategy()
-            };
+            _strategyService.ChangeStrategy(strat.StratType);
         }
     }
 }
