@@ -7,17 +7,24 @@ namespace BadgerClan.Bot.Strategies
         public List<Move> GenerateMoves(MoveRequest request)
         {
             var moves = new List<Move>();
-            foreach(var unit in request.Units)
-            {
-                if (unit != null)
-                    moves.Add(new Move(MoveType.Walk, unit.Id, new Coordinate(unit.Location.Q-1, unit.Location.R)));
-            }
+            var Myteam = request.Units.Where(u => u.Team == request.YourTeamId).ToList();
+            Pattern(Myteam);
             return moves;
         }
 
         public List<UnitDto> GetClosestEnemies()
         {
             throw new NotImplementedException();
+        }
+
+        public void Pattern(List<UnitDto> units)
+        {
+            units.ForEach(u => u.Location.MoveSouthEast(1));
+            units.ForEach(u => u.Location.MoveSouthWest(1));
+            units.ForEach(u => u.Location.MoveWest(1));
+            units.ForEach(u => u.Location.MoveNorthWest(1));
+            units.ForEach(u => u.Location.MoveNorthEast(1));
+            units.ForEach(u => u.Location.MoveEast(1));
         }
     }
 }

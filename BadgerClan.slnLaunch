@@ -3,12 +3,9 @@
     "Name": "Client and Server",
     "Projects": [
       {
-        "Path": "BadgerClan.Web\\BadgerClan.Web.csproj",
-        "Action": "Start"
-      },
-      {
         "Path": "BadgerClan.Bot\\BadgerClan.Bot.csproj",
-        "Action": "Start"
+        "Action": "Start",
+        "DebugTarget": "http"
       },
       {
         "Path": "BadgerClan.Maui\\BadgerClan.Maui.csproj",
