@@ -1,6 +1,6 @@
 ﻿using BadgerClan.Logic;
 
-namespace BadgerClan.Bot.Bots
+namespace BadgerClan.Bot.Strategies
 {
     public interface IStrategy
     {

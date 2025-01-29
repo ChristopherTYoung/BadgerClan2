@@ -9,6 +9,11 @@
       {
         "Path": "BadgerClan.Bot\\BadgerClan.Bot.csproj",
         "Action": "Start"
+      },
+      {
+        "Path": "BadgerClan.Maui\\BadgerClan.Maui.csproj",
+        "Action": "Start",
+        "DebugTarget": "Windows Machine"
       }
     ]
   }

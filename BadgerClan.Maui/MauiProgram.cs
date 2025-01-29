@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using BadgerClan.Maui.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace BadgerClan.Maui
 {
@@ -18,7 +19,9 @@ namespace BadgerClan.Maui
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(uriString: "http://localhost:5271") });
+            builder.Services.AddSingleton<MainPageViewModel>();
+            builder.Services.AddSingleton<MainPage>();
             return builder.Build();
         }
     }
