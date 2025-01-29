@@ -14,5 +14,10 @@ namespace BadgerClan.Bot.Strategies
             }
             return moves;
         }
+
+        public List<UnitDto> GetClosestEnemies()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

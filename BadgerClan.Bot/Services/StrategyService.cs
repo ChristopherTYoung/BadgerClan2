@@ -18,6 +18,8 @@ namespace BadgerClan.Bot.Services
             {
                 StrategyType.MyStrategy => new MyStrategy(),
                 StrategyType.OtherStrategy => new OtherStrategy(),
+                StrategyType.DoNothing => new DoNothingStrategy(),
+                StrategyType.CircleStrategy => new CircleStategy(),
                 _ => new MyStrategy()
             };
         }

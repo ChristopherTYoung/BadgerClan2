@@ -26,7 +26,9 @@ namespace BadgerClan.Maui.ViewModels
             Strategies = new ObservableCollection<StrategyModel>()
             {
                 new StrategyModel(StrategyType.MyStrategy),
-                new StrategyModel(StrategyType.OtherStrategy)
+                new StrategyModel(StrategyType.OtherStrategy),
+                new StrategyModel(StrategyType.DoNothing),
+                new StrategyModel(StrategyType.CircleStrategy)
             };
             WeakReferenceMessenger.Default.Register(this);
         }

@@ -3,6 +3,8 @@
     public enum StrategyType
     {
         MyStrategy,
-        OtherStrategy
+        OtherStrategy,
+        DoNothing,
+        CircleStrategy
     }
 }

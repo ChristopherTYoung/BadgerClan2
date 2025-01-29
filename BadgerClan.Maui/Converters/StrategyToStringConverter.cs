@@ -16,6 +16,8 @@ namespace BadgerClan.Maui.Converters
             {
                 StrategyType.MyStrategy => "My Strategy",
                 StrategyType.OtherStrategy => "Other Strategy",
+                StrategyType.DoNothing => "Do Nothing",
+                StrategyType.CircleStrategy => "Circle Strategy",
                 _ => ""
             };
         }
