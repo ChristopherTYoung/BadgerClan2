@@ -17,6 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BadgerClan.Bot", "BadgerClan.Bot\BadgerClan.Bot.csproj", "{75228535-3CF6-473D-9712-95FB404A3562}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BadgerClan.Maui", "BadgerClan.Maui\BadgerClan.Maui.csproj", "{E0246E5E-CD56-472C-BE0A-2A33CB48250E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{2ED5E945-C282-4CA8-A3C7-A67C4B5385F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2ED5E945-C282-4CA8-A3C7-A67C4B5385F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2ED5E945-C282-4CA8-A3C7-A67C4B5385F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75228535-3CF6-473D-9712-95FB404A3562}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75228535-3CF6-473D-9712-95FB404A3562}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75228535-3CF6-473D-9712-95FB404A3562}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75228535-3CF6-473D-9712-95FB404A3562}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0246E5E-CD56-472C-BE0A-2A33CB48250E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0246E5E-CD56-472C-BE0A-2A33CB48250E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0246E5E-CD56-472C-BE0A-2A33CB48250E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0246E5E-CD56-472C-BE0A-2A33CB48250E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,7 +7,7 @@
         "Action": "Start"
       },
       {
-        "Path": "BadgerClan.Client\\BadgerClan.Client.csproj",
+        "Path": "BadgerClan.Bot\\BadgerClan.Bot.csproj",
         "Action": "Start"
       }
     ]
