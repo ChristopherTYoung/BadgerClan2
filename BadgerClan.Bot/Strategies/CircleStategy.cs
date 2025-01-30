@@ -70,7 +70,6 @@ namespace BadgerClan.Bot.Strategies
                         Direction.NorthWest => teamArray[i].Location.MoveNorthEast(1),
                         _ => teamArray[i].Location
                     };
-
                 }
             }
         }
