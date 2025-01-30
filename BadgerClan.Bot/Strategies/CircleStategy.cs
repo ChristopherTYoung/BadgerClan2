@@ -5,20 +5,39 @@ namespace BadgerClan.Bot.Strategies
     public class CircleStategy : IStrategy
     {
         private IEnumerable<UnitDto> ClosestEnemies { get; set; }
+        private Direction ClosestEnemyDirection { get; set; }
         private IEnumerable<UnitDto> MyTeam {  get; set; }
         public List<Move> GenerateMoves(MoveRequest request)
         {
             MyTeam = request.Units.Where(u => u.Team == request.YourTeamId);
             if (ClosestEnemies == null)
-                ClosestEnemies = GetClosestEnemies(request);
+                GetClosestEnemies(request);
 
             return new List<Move>();
         }
 
-        public List<UnitDto> GetClosestEnemies(MoveRequest request)
+        private void GetEnemyDirection()
+        {
+            var myLocation = MyTeam.FirstOrDefault().Location;
+            var enemyLocation = ClosestEnemies.FirstOrDefault().Location;
+            var nonAbsoluteLocation = enemyLocation - myLocation;
+            if (nonAbsoluteLocation.Q < 0)
+            {
+                if (nonAbsoluteLocation.R < 0) ClosestEnemyDirection = Direction.NorthWest;
+                else if (nonAbsoluteLocation.R > 0) ClosestEnemyDirection = Direction.SouthWest;
+                else ClosestEnemyDirection = Direction.West;
+            }
+            else
+            {
+                if (nonAbsoluteLocation.R < 0) ClosestEnemyDirection = Direction.NorthEast;
+                else if (nonAbsoluteLocation.R > 0) ClosestEnemyDirection = Direction.SouthEast;
+                else ClosestEnemyDirection = Direction.East;
+            }
+        }
+
+        public void GetClosestEnemies(MoveRequest request)
         {
             var closestDistance = int.MaxValue;
-            var closestTeam = new List<UnitDto>();
             foreach (var enemyId in request.TeamIds)
             {
                 var enemyTeam = request.Units.Where(u => u.Team == enemyId).ToList();
@@ -27,10 +46,39 @@ namespace BadgerClan.Bot.Strategies
                 if (enemyDistance < closestDistance)
                 {
                     closestDistance = enemyDistance;
-                    closestTeam = enemyTeam;
+                    ClosestEnemies = enemyTeam;
+                    GetEnemyDirection();
                 }
             }
-            return closestTeam;
+        }
+        
+        public void SplitUp(List<Move> moves)
+        {
+            int firstHalf = MyTeam.Count() / 2;
+            var teamArray = MyTeam.ToArray();
+            for (int i = 0; i < MyTeam.Count() - 1; i++)
+            {
+                if (i < firstHalf)
+                {
+                    var coord = ClosestEnemyDirection switch
+                    {
+                        Direction.NorthEast => teamArray[i].Location.MoveSouthWest(1),
+                        Direction.East => teamArray[i].Location.MoveNorthEast(1),
+                        Direction.SouthEast => teamArray[i].Location.MoveEast(1),
+                        Direction.SouthWest => teamArray[i].Location.MoveWest(1),
+                        Direction.West => teamArray[i].Location.MoveNorthWest(1),
+                        Direction.NorthWest => teamArray[i].Location.MoveNorthEast(1),
+                        _ => teamArray[i].Location
+                    };
+
+                }
+            }
+        }
+
+        public void MoveTowardsEnemy()
+        {
+
         }
     }
+    public enum Direction { NorthEast, East, SouthEast, SouthWest, West, NorthWest }
 }
