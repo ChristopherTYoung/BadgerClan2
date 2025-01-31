@@ -8,17 +8,27 @@ namespace BadgerClan.Bot.Strategies
     {
         private IEnumerable<UnitDto> ClosestEnemies { get; set; }
         private Direction ClosestEnemyDirection { get; set; }
-        private IEnumerable<UnitDto> MyTeam {  get; set; }
+        private IEnumerable<UnitDto> MyTeam { get; set; }
         public List<Move> GenerateMoves(MoveRequest request)
         {
             MyTeam = request.Units.Where(u => u.Team == request.YourTeamId);
             List<Move> moves = new List<Move>();
-            GetClosestEnemies(request);
 
-            if (ClosestEnemies.First().Location.Distance(MyTeam.First().Location) < 6)
+            if (ClosestEnemies == null)
+                GetClosestEnemies(request);
+
+            if (ClosestEnemies.First().Location.Distance(MyTeam.First().Location) <= 4)
+            {
+                GetClosestEnemies(request);
+                moves = AttackEnemy(moves);
+            }
+            else if (ClosestEnemies.First().Location.Distance(MyTeam.First().Location) <= 5)
                 moves = SplitUp(moves);
-            else moves = MoveTowardsEnemy(moves);
-
+            else
+            {
+                GetClosestEnemies(request);
+                moves = MoveTowardsEnemy(moves); 
+            }
             return moves;
         }
 
@@ -44,7 +54,7 @@ namespace BadgerClan.Bot.Strategies
         public void GetClosestEnemies(MoveRequest request)
         {
             var closestDistance = int.MaxValue;
-            foreach (var enemyId in request.TeamIds)
+            foreach (var enemyId in request.TeamIds.Where(t => t != request.YourTeamId))
             {
                 var enemyTeam = request.Units.Where(u => u.Team == enemyId).ToList();
                 var coord = MyTeam.First().Location;
@@ -57,12 +67,13 @@ namespace BadgerClan.Bot.Strategies
                 }
             }
         }
-        
+
         public List<Move> SplitUp(List<Move> moves)
         {
-            int firstHalf = MyTeam.Count() / 2;
+            int teamCount = MyTeam.Count() - 1;
+            int firstHalf = teamCount / 2;
             var teamArray = MyTeam.ToArray();
-            for (int i = 0; i < MyTeam.Count() - 1; i++)
+            for (int i = 0; i < teamCount; i++)
             {
                 if (i < firstHalf)
                 {
@@ -98,19 +109,19 @@ namespace BadgerClan.Bot.Strategies
 
         public List<Move> MoveTowardsEnemy(List<Move> moves)
         {
-            foreach(var unit in MyTeam)
+            foreach (var unit in MyTeam)
             {
-                var coord = ClosestEnemyDirection switch
-                {
-                    Direction.NorthEast => unit.Location.MoveNorthEast(1),
-                    Direction.East => unit.Location.MoveEast(1),
-                    Direction.SouthEast => unit.Location.MoveSouthEast(1),
-                    Direction.SouthWest => unit.Location.MoveSouthWest(1),
-                    Direction.West => unit.Location.MoveWest(1),
-                    Direction.NorthWest => unit.Location.MoveNorthWest(1),
-                    _ => unit.Location
-                };
-                moves.Add(new Move(MoveType.Walk, unit.Id, coord));
+                var coord = ClosestEnemies.First().Location;
+                moves.Add(new Move(MoveType.Walk, unit.Id, unit.Location.Toward(coord)));
+            }
+            return moves;
+        }
+
+        public List<Move> AttackEnemy(List<Move> moves)
+        {
+            foreach (var unit in MyTeam)
+            {
+                moves.Add(new Move(MoveType.Attack, unit.Id, unit.Location.Toward(coord)));
             }
             return moves;
         }
