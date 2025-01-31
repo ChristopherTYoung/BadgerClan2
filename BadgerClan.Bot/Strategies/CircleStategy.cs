@@ -121,6 +121,7 @@ namespace BadgerClan.Bot.Strategies
         {
             foreach (var unit in MyTeam)
             {
+                var coord = ClosestEnemies.First().Location;
                 moves.Add(new Move(MoveType.Attack, unit.Id, unit.Location.Toward(coord)));
             }
             return moves;
