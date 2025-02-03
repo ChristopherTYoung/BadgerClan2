@@ -121,10 +121,30 @@ namespace BadgerClan.Bot.Strategies
         {
             foreach (var unit in MyTeam)
             {
-                var coord = ClosestEnemies.First().Location;
-                moves.Add(new Move(MoveType.Attack, unit.Id, unit.Location.Toward(coord)));
+                var coord = FindClosestEnemy(unit);
+                if (unit.Health < 4) moves.Add(new Move(MoveType.Medpac, unit.Id, unit.Location));
+                else moves.Add(new Move(MoveType.Attack, unit.Id, unit.Location.Toward(coord)));
             }
             return moves;
+        }
+
+        public Coordinate? FindClosestEnemy(UnitDto unit)
+        {
+            Coordinate? coord = null;
+            var closestDistance = int.MaxValue;
+            foreach (var enemy in ClosestEnemies)
+            {
+                var enemyLoc = enemy.Location;
+                var enemyDistance = enemyLoc.Distance(coord);
+                if (enemyDistance < closestDistance)
+                {
+                    closestDistance = enemyDistance;
+                    coord = enemyLoc;
+                }
+            }
+
+
+            return coord;
         }
     }
     public enum Direction { NorthEast, East, SouthEast, SouthWest, West, NorthWest }
