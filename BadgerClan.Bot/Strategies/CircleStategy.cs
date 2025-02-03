@@ -27,7 +27,7 @@ namespace BadgerClan.Bot.Strategies
             else
             {
                 GetClosestEnemies(request);
-                moves = MoveTowardsEnemy(moves); 
+                moves = MoveTowardsEnemy(moves);
             }
             return moves;
         }
