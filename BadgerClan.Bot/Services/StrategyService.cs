@@ -22,6 +22,6 @@ namespace BadgerClan.Bot.Services
                 StrategyType.CircleStrategy => new CircleStategy(),
                 _ => new MyStrategy()
             };
-        }
+        } 
     }
 }
