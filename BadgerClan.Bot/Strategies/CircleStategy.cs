@@ -17,12 +17,12 @@ namespace BadgerClan.Bot.Strategies
             if (ClosestEnemies == null)
                 GetClosestEnemies(request);
 
-            if (ClosestEnemies.First().Location.Distance(MyTeam.First().Location) <= 4)
+            if (ClosestEnemies.First().Location.Distance(MyTeam.First().Location) <= 3)
             {
                 GetClosestEnemies(request);
                 moves = AttackEnemy(moves);
             }
-            else if (ClosestEnemies.First().Location.Distance(MyTeam.First().Location) <= 5)
+            else if (ClosestEnemies.First().Location.Distance(MyTeam.First().Location) <= 4)
                 moves = SplitUp(moves);
             else
             {
@@ -58,7 +58,7 @@ namespace BadgerClan.Bot.Strategies
             {
                 var enemyTeam = request.Units.Where(u => u.Team == enemyId).ToList();
                 var coord = MyTeam.First().Location;
-                var enemyDistance = enemyTeam.First().Location.Distance(coord);
+                var enemyDistance = enemyTeam.FirstOrDefault().Location.Distance(coord);
                 if (enemyDistance < closestDistance)
                 {
                     closestDistance = enemyDistance;
@@ -122,28 +122,29 @@ namespace BadgerClan.Bot.Strategies
             foreach (var unit in MyTeam)
             {
                 var coord = FindClosestEnemy(unit);
-                if (unit.Health < 4) moves.Add(new Move(MoveType.Medpac, unit.Id, unit.Location));
-                else moves.Add(new Move(MoveType.Attack, unit.Id, unit.Location.Toward(coord)));
+                if (coord != unit.Location)
+                {
+                    if (unit.Health < 4) moves.Add(new Move(MoveType.Medpac, unit.Id, unit.Location));
+                    else moves.Add(new Move(MoveType.Attack, unit.Id, unit.Location.Toward(coord)));
+                }
             }
             return moves;
         }
 
-        public Coordinate? FindClosestEnemy(UnitDto unit)
+        public Coordinate FindClosestEnemy(UnitDto unit)
         {
-            Coordinate? coord = null;
+            Coordinate coord = unit.Location;
             var closestDistance = int.MaxValue;
             foreach (var enemy in ClosestEnemies)
             {
                 var enemyLoc = enemy.Location;
-                var enemyDistance = enemyLoc.Distance(coord);
+                var enemyDistance = enemyLoc.Distance(unit.Location);
                 if (enemyDistance < closestDistance)
                 {
                     closestDistance = enemyDistance;
                     coord = enemyLoc;
                 }
             }
-
-
             return coord;
         }
     }
