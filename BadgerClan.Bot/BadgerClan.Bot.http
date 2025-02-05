@@ -20,5 +20,4 @@ Content-Type: application/json
     "GameId": "1",
     "BoardSize": 10,
     "Medpacs": 5
-
 }
