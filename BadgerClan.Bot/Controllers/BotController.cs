@@ -21,6 +21,7 @@ namespace BadgerClan.Bot.Controllers
         [HttpPost("/")]
         public MoveResponse GenerateMoveResponse(MoveRequest request)
         {
+            _logger.LogInformation("Hit");
             var moves = new List<Move>();
             moves = _strategyService.Strategy.GenerateMoves(request);
             return new MoveResponse(moves);
