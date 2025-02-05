@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pageModels="clr-namespace:BadgerClan.Maui.ViewModels"
+             xmlns:models="clr-namespace:BadgerClan.Maui.Models"
+             x:Class="BadgerClan.Maui.Views.ClientPage"
+             x:DataType="pageModels:ClientViewModel"
+             Title="ClientPage">
+    <VerticalStackLayout>
+        <Entry Text="{Binding Nametmp}" 
+               TextChanged="Name_TextChanged"
+               Placeholder="Enter name"/>
+        <Entry Text="{Binding Urltmp}"
+               TextChanged="Url_TextChanged"
+               Placeholder="Enter url"/>
+        <Button Text="Create"
+                Command="{Binding AddClientCommand}"/>
+        <CollectionView ItemsSource="{Binding Clients}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ClientModel">
+                    <HorizontalStackLayout>
+                        <Label Text="{Binding Name, StringFormat='Name: {0}'}" />
+                        <Label Text="{Binding Url, StringFormat='Url: {0}'}" />
+                        <Button Text="Controls" Command="{Binding ControlsCommand}" />
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

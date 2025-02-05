@@ -16,13 +16,15 @@ using System.Threading.Tasks;
 
 namespace BadgerClan.Maui.ViewModels
 {
-    public class MainPageViewModel : ObservableObject, IRecipient<StrategyChangedMessage>
+    public partial class MainPageViewModel : ObservableObject, IRecipient<StrategyChangedMessage>, IQueryAttributable
     {
         HttpClient _client;
+
+        [ObservableProperty]
+        public ClientModel _clientModel;
         public ObservableCollection<StrategyModel> Strategies { get; set; }
-        public MainPageViewModel(HttpClient client)
+        public MainPageViewModel()
         {
-            _client = client;
             Strategies = new ObservableCollection<StrategyModel>()
             {
                 new StrategyModel(StrategyType.MyStrategy),
@@ -35,13 +37,19 @@ namespace BadgerClan.Maui.ViewModels
 
         private async Task UpdateStrategy(StrategyType stratType)
         {
-            await _client.PostAsJsonAsync("/changestrategy", new StrategyDTO() { StratType = stratType });
+            await _client.PostAsJsonAsync("changestrategy", new StrategyDTO() { StratType = stratType });
         }
 
 
         public async void Receive(StrategyChangedMessage message)
         {
             await UpdateStrategy(message.StratType);
+        }
+
+        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            ClientModel = (ClientModel)query["client"];
+            _client = ClientModel._client;
         }
     }
 }
