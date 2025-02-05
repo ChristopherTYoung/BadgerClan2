@@ -4,3 +4,21 @@ GET {{BadgerClan.Bot_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+POST {{BadgerClan.Bot_HostAddress}}/bot/
+Content-Type: application/json
+
+{
+    "Units": [
+
+    ],
+    "TeamIds": [
+
+    ],
+    "YourTeamId": 1,
+    "TurnNumber": 0,
+    "GameId": "1",
+    "BoardSize": 10,
+    "Medpacs": 5
+
+}

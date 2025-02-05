@@ -18,7 +18,7 @@ namespace BadgerClan.Bot.Controllers
             _strategyService = strategyService;
         }
 
-        [HttpPost("/")]
+        [HttpPost]
         public MoveResponse GenerateMoveResponse(MoveRequest request)
         {
             _logger.LogInformation("Hit");
