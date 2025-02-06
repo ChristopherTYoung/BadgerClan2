@@ -16,6 +16,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.MapGet("/", () => "Hello world!");
+
 // Sneaky line of code
 //app.UseHttpsRedirection();
 
