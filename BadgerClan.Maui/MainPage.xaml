@@ -14,6 +14,8 @@
     
     <ScrollView>
         <VerticalStackLayout>
+            <Label Text="{Binding ClientModel.Name}" />
+            <Label Text="{Binding ClientModel.Url}" />
             <CollectionView ItemsSource="{Binding Strategies}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:StrategyModel">

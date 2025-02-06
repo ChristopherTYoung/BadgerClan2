@@ -21,6 +21,7 @@ namespace BadgerClan.Maui
     		builder.Logging.AddDebug();
 #endif
             builder.Services.AddHttpClient();
+            builder.Services.AddTransient<MainPageViewModel>();
             builder.Services.AddSingleton<ClientViewModel>();
             builder.Services.AddSingleton<ClientPage>();
             return builder.Build();
