@@ -4,10 +4,10 @@ namespace BadgerClan.Maui
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage(MainPageViewModel mpvm)
+        public MainPage()
         {
             InitializeComponent();
-            BindingContext = mpvm;
+            BindingContext = new MainPageViewModel();
         }
 
     }
