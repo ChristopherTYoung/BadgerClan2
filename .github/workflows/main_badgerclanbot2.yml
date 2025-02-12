@@ -23,8 +23,11 @@ jobs:
         with:
           dotnet-version: '9.x'
 
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
+
       - name: dotnet publish
-        run: cd "BadgerClan.Bot" && dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -51,9 +54,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_AB6935C0A63E42229A1A379E96969165 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4AC92CC7F7DB4E9F977B3BB9694D92AE }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_79BF82A850324924A5BD54E4AA57964D }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_58B76A81BCA0466AB326A8C028B7B034 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C863DBD28C9A4F34AEAD0C9ABB10F266 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4F27A0DC194944B1B0E63479CF1C15D9 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
