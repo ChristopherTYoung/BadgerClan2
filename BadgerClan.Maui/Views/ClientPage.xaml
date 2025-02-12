@@ -13,6 +13,7 @@
         <Entry Text="{Binding Urltmp}"
                TextChanged="Url_TextChanged"
                Placeholder="Enter url"/>
+        <CheckBox CheckedChanged="OnCheckChange"/>
         <Button Text="Create"
                 Command="{Binding AddClientCommand}"/>
         <CollectionView ItemsSource="{Binding Clients}">

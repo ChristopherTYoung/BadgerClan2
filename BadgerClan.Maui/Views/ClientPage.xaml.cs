@@ -21,4 +21,9 @@ public partial class ClientPage : ContentPage
     {
         WeakReferenceMessenger.Default.Send(new FieldChangedMessage());
     }
+
+    private void OnCheckChange(object sender, CheckedChangedEventArgs e)
+    {
+        WeakReferenceMessenger.Default.Send(new ClientTypeChanged(e.Value));
+    }
 }

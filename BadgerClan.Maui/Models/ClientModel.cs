@@ -16,20 +16,24 @@ namespace BadgerClan.Maui.Models
         [ObservableProperty]
         public string _url;
 
+        [ObservableProperty]
+        public bool _grpc;
+
         public HttpClient _client { get; }
 
-        public ClientModel(HttpClient client, string name, string url) 
+        public ClientModel(HttpClient client, string name, string url, bool grpc) 
         {
             Name = name;
             _client = client;
             _url = url; 
+            _grpc = grpc;
         }
 
 
         [RelayCommand]
         public async Task Controls()
         {
-            await Shell.Current.GoToAsync("client", new Dictionary<string, object>() { { "client", new ClientModel(_client, Name, Url) } });
+            await Shell.Current.GoToAsync("client", new Dictionary<string, object>() { { "client", new ClientModel(_client, Name, Url, Grpc) } });
         }
 
     }

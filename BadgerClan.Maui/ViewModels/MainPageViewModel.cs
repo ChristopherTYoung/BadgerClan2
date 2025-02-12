@@ -4,7 +4,9 @@ using BadgerClan.Maui.Models;
 using BadgerClan.Shared;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using Grpc.Net.Client;
 using Newtonsoft.Json;
+using ProtoBuf.Grpc.Client;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -37,7 +39,19 @@ namespace BadgerClan.Maui.ViewModels
 
         private async Task UpdateStrategy(StrategyType stratType)
         {
-            await _client.PostAsJsonAsync("changestrategy", new StrategyDTO() { StratType = stratType });
+            if (!ClientModel.Grpc)
+            {
+
+                await _client.PostAsJsonAsync("changestrategy", new StrategyDTO() { StratType = stratType });
+            }
+            else
+            {
+                GrpcClientFactory.AllowUnencryptedHttp2 = true;
+                using var channel = GrpcChannel.ForAddress(ClientModel.Url);
+                var client = channel.CreateGrpcService<IChangeService>();
+
+                await client.ChangeStrategy(new ChangeRequest() { StratType = stratType });
+            }
         }
 
 
