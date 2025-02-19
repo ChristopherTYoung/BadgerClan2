@@ -17,7 +17,7 @@ namespace BadgerClan.Bot.Strategies
             if (ClosestEnemies == null)
                 GetClosestEnemies(request);
 
-            if (ClosestEnemies.First().Location.Distance(MyTeam.First().Location) <= 3)
+            if (ClosestEnemies.First().Location.Distance(MyTeam.First().Location) <= 2)
             {
                 GetClosestEnemies(request);
                 moves = AttackEnemy(moves);
@@ -58,12 +58,16 @@ namespace BadgerClan.Bot.Strategies
             {
                 var enemyTeam = request.Units.Where(u => u.Team == enemyId).ToList();
                 var coord = MyTeam.First().Location;
-                var enemyDistance = enemyTeam.FirstOrDefault().Location.Distance(coord);
-                if (enemyDistance < closestDistance)
+
+                if (enemyTeam != null)
                 {
-                    closestDistance = enemyDistance;
-                    ClosestEnemies = enemyTeam;
-                    GetEnemyDirection();
+                    var enemyDistance = enemyTeam.FirstOrDefault().Location.Distance(coord);
+                    if (enemyDistance < closestDistance)
+                    {
+                        closestDistance = enemyDistance;
+                        ClosestEnemies = enemyTeam;
+                        GetEnemyDirection();
+                    }
                 }
             }
         }
@@ -111,7 +115,7 @@ namespace BadgerClan.Bot.Strategies
         {
             foreach (var unit in MyTeam)
             {
-                var coord = ClosestEnemies.First().Location;
+                var coord = FindClosestEnemy(unit);
                 moves.Add(new Move(MoveType.Walk, unit.Id, unit.Location.Toward(coord)));
             }
             return moves;
